@@ -141,10 +141,19 @@ spec:
 ```
 
 
-## 7. Verify installation
+## 7. Verify installation, and debugging tips
 
 Find url for your service using `kubectl get svc` or `minikube service --url ngnix-service -n http`, and make a call to it.
 
 Get GoReplay logs, and check if it capture traffic of your service.
-`microk8s kubectl logs -n goreplay -l app=goreplay --all-containers`
+`kubectl logs -n goreplay -l app=goreplay --all-containers`
+
+Describe daemonset:
+`kubectl describe daemonset goreplay-daemon -n goreplay`
+
+Get GoReplay pod list:
+`kubectl get pods -n goreplay -l app=goreplay`
+
+Get logs for specific pod (take data from previous step):
+`kubectl logs goreplay-daemon-<replace> -n goreplay`
 

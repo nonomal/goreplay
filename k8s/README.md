@@ -157,3 +157,5 @@ Get GoReplay pod list:
 Get logs for specific pod (take data from previous step):
 `kubectl logs goreplay-daemon-<replace> -n goreplay`
 
+Get related k8s events:
+`kubectl get events -n goreplay --field-selector involvedObject.name=goreplay-daemon-<replace>`

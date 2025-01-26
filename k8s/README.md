@@ -92,8 +92,9 @@ spec:
       containers:
       - name: goreplay
         image: buger/goreplay:2.0.0-rc4
-        command:
-          - "--input-raw k8s://deployments/nginx:80"
+        args:
+          - "--input-raw"
+          - "k8s://deployments/nginx:80"
           - "--output-stdout"
 ```
 
@@ -159,3 +160,13 @@ Get logs for specific pod (take data from previous step):
 
 Get related k8s events:
 `kubectl get events -n goreplay --field-selector involvedObject.name=goreplay-daemon-<replace>`
+
+## 8. Debuggin telemetry
+
+We provde a special script which will get all require logs, and help you find installation errors. 
+
+`curl -s https://raw.githubusercontent.com/buger/goreplay/refs/heads/master/k8s/collect_goreplay_telemetry.sh | bash`
+
+If you are using microk8s or similar, you can also specific prefix for your kubectl command like this:
+
+`curl -s https://raw.githubusercontent.com/buger/goreplay/refs/heads/master/k8s/collect_goreplay_telemetry.sh | bash -s -- "microk8s kubectl"`

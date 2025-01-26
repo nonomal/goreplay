@@ -77,15 +77,21 @@ Following format supported:
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  name: goreplay-daemon
+  name: goreplay-daemon
 spec:
-  template:
-    spec:
+  selector:
+    matchLabels:
+      app: goreplay
+  template:
+    metadata:
+      labels:
+        app: goreplay
+    spec:
       hostNetwork: true
       serviceAccountName: goreplay
-      containers:
-      - name: goreplay
-        image: buger/goreplay:2.0.0-rc2
+      containers:
+      - name: goreplay
+        image: buger/goreplay:2.0.0-rc4
         command:
           - "--input-raw k8s://deployments/nginx:80"
           - "--output-stdout"
@@ -140,5 +146,5 @@ spec:
 Find url for your service using `kubectl get svc` or `minikube service --url ngnix-service -n http`, and make a call to it.
 
 Get GoReplay logs, and check if it capture traffic of your service.
-`kubectl logs -n goreplay -l name=goreplay-daemon --all-containers`
+`microk8s kubectl logs -n goreplay -l app=goreplay --all-containers`
 
